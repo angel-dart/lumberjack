@@ -1,2 +1,3 @@
-export 'src/log_message.dart';
 export 'src/log_severity.dart';
+export 'src/log.dart';
+export 'src/logger.dart';

@@ -1,7 +1,7 @@
 import 'log_severity.dart';
 
 /// A message emitted by the system, that should be displayed or stored somewhere.
-class LogMessage {
+class Log {
   /// The severity of this message.
   final LogSeverity severity;
 
@@ -18,5 +18,5 @@ class LogMessage {
   /// Typically used with [error].
   final StackTrace stackTrace;
 
-  LogMessage(this.severity, this.message, this.error, this.stackTrace);
+  Log(this.severity, this.message, this.error, this.stackTrace);
 }
