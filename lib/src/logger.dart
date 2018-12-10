@@ -15,6 +15,40 @@ abstract class Logger extends Stream<Log> {
     }
   }
 
+  /// Runs [callback] in another [Zone], intercepting [print] calls, and logging errors as they occur.
+  ///
+  /// Within this callback, [forThisZone] is available.
+  ///
+  /// You may also provide an [onError] callback, which will be called in case of an error.
+  ///
+  /// An [errorMessage] string may be provided. If it is not present,
+  /// error messages will only have an error and [StackTrace] attached.
+  ///
+  /// A custom [severityForPrint] may be provided for [print] calls. Defaults to [LogSeverity.information].
+  ///
+  /// [severityFor] defaults to [LogSeverity.error].
+  Future<T> runZoned<T>(FutureOr<T> Function() callback,
+      {String errorMessage,
+      LogSeverity severityForError = LogSeverity.error,
+      LogSeverity severityForPrint = LogSeverity.information,
+      FutureOr<T> Function() onError}) {
+    var spec = new ZoneSpecification(
+      handleUncaughtError: (self, parent, zone, error, stackTrace) {
+        log(severityForError, errorMessage,
+            error: error, stackTrace: stackTrace);
+      },
+      print: (self, parent, zone, line) {
+        log(severityForPrint, line);
+      },
+    );
+    var zone = Zone.current.fork(specification: spec, zoneValues: {
+      #loggerForThisZone: this,
+    });
+
+    var future = zone.run(() => new Future<T>.sync(callback));
+    return onError == null ? future : future.catchError((_) => onError());
+  }
+
   /// Logs a [message] at some [severity].
   @protected
   void log(LogSeverity severity, message,
@@ -45,8 +79,8 @@ abstract class Logger extends Stream<Log> {
     log(LogSeverity.warning, message, error: error, stackTrace: stackTrace);
   }
 
-  /// Logs a [message] at `message` [severity].
-  void message(message, {Object error, StackTrace stackTrace}) {
+  /// Logs a [message] at `notice` [severity].
+  void notice(message, {Object error, StackTrace stackTrace}) {
     log(LogSeverity.notice, message, error: error, stackTrace: stackTrace);
   }
 

@@ -8,34 +8,34 @@ class LogSeverity implements Comparable<LogSeverity> {
   /// A log of priority `0`. In [RFC5424], this means `system is unusable`.
   ///
   /// This is the most severe log level.
-  static final LogSeverity emergency = const LogSeverity('emergency', 0);
+  static const LogSeverity emergency = const LogSeverity('emergency', 0);
 
   /// A log of priority `1`. In [RFC5424], this means `action must be taken immediately`.
-  static final LogSeverity alert = const LogSeverity('alert', 1);
+  static const LogSeverity alert = const LogSeverity('alert', 1);
 
   /// A log of priority `2`. In [RFC5424], this means `critical conditions`.
-  static final LogSeverity critical = const LogSeverity('critical', 2);
+  static const LogSeverity critical = const LogSeverity('critical', 2);
 
   /// A log of priority `3`. In [RFC5424], this means `error conditions`.
-  static final LogSeverity error = const LogSeverity('error', 3);
+  static const LogSeverity error = const LogSeverity('error', 3);
 
   /// A log of priority `4`. In [RFC5424], this means `warning conditions`.
-  static final LogSeverity warning = const LogSeverity('warning', 4);
+  static const LogSeverity warning = const LogSeverity('warning', 4);
 
   /// A log of priority `5`. In [RFC5424], this means `normal but significant condition`.
-  static final LogSeverity notice = const LogSeverity('notice', 5);
+  static const LogSeverity notice = const LogSeverity('notice', 5);
 
   /// A log of priority `6`. In [RFC5424], this means `informational messages`.
-  static final LogSeverity information = const LogSeverity('informational', 6);
+  static const LogSeverity information = const LogSeverity('informational', 6);
 
   /// A log of priority `7`. In [RFC5424], this means `debug-level messages`.
-  static final LogSeverity debug = const LogSeverity('debug', 0);
+  static const LogSeverity debug = const LogSeverity('debug', 0);
 
   /// The name of this log level, to appear in printed messages.
-  final String name;
+  const String name;
 
   /// The numerical severity of this log leve, used for comparisons.
-  final int severity;
+  const int severity;
 
   const LogSeverity(this.name, this.severity);
 
