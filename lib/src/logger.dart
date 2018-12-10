@@ -5,6 +5,9 @@ import 'log_severity.dart';
 
 /// A utility that collects [Log] objects, and emits them as a [Stream].
 abstract class Logger extends Stream<Log> {
+  /// Returns the [Logger] instance that spawned this [Zone], if any.
+  ///
+  /// If none is present, a [StateError] will be thrown.
   static Logger get forThisZone {
     var logger = Zone.current[#loggerForThisZone];
     if (logger is Logger) {
@@ -14,6 +17,17 @@ abstract class Logger extends Stream<Log> {
           'The currently-executing Zone does not have an associated `Logger`.');
     }
   }
+
+  /// Closes the underlying [Stream], and prevents further [Log] messages from being emitted.
+  Future close();
+
+  /// Creates a new [Logger] underneath this one, with the given [name].
+  ///
+  /// [Log] messages from the child will bubble up, prefixed the given [name], followed by a `.`.
+  ///
+  /// If [bubbleOnly] is `true`, then the child will not emit any events of its own accord, only only
+  /// forward messages to this instance.
+  Logger createChild(String name, {bool bubbleOnly = false});
 
   /// Runs [callback] in another [Zone], intercepting [print] calls, and logging errors as they occur.
   ///

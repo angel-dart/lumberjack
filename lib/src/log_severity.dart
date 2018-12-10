@@ -32,10 +32,10 @@ class LogSeverity implements Comparable<LogSeverity> {
   static const LogSeverity debug = const LogSeverity('debug', 0);
 
   /// The name of this log level, to appear in printed messages.
-  const String name;
+  final String name;
 
   /// The numerical severity of this log leve, used for comparisons.
-  const int severity;
+  final int severity;
 
   const LogSeverity(this.name, this.severity);
 
