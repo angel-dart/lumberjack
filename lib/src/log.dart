@@ -11,8 +11,8 @@ class Log {
   /// The severity of this message.
   final LogSeverity severity;
 
-  /// The text contents of this message.
-  final String message;
+  /// The contents of this message.
+  final Object message;
 
   /// The error associated with this object, if any.
   ///

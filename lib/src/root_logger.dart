@@ -1,7 +1,5 @@
-import 'dart:async';
-import 'log.dart';
-import 'logger.dart';
+import 'hierarchical_logger.dart';
 
-class RootLogger extends Logger {
-  final StreamController<Log> _onLog = new StreamController();
+class RootLogger extends HierarchicalLogger {
+  RootLogger(String name) : super(name);
 }

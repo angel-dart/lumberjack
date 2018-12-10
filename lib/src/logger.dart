@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'log.dart';
 import 'log_severity.dart';
+import 'root_logger.dart';
 
 /// A utility that collects [Log] objects, and emits them as a [Stream].
 abstract class Logger extends Stream<Log> {
@@ -17,6 +18,15 @@ abstract class Logger extends Stream<Log> {
           'The currently-executing Zone does not have an associated `Logger`.');
     }
   }
+
+  /// Creates a new [Logger] with the given [name], at the root of its own hierarchy.
+  factory Logger(String name) = RootLogger;
+
+  /// Base constructor for [Logger].
+  ///
+  /// Meant for internal use only.
+  @protected
+  Logger.base();
 
   /// Closes the underlying [Stream], and prevents further [Log] messages from being emitted.
   Future close();
