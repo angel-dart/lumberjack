@@ -5,6 +5,16 @@ import 'log_severity.dart';
 
 /// A utility that collects [Log] objects, and emits them as a [Stream].
 abstract class Logger extends Stream<Log> {
+  static Logger get forThisZone {
+    var logger = Zone.current[#loggerForThisZone];
+    if (logger is Logger) {
+      return logger;
+    } else {
+      throw new StateError(
+          'The currently-executing Zone does not have an associated `Logger`.');
+    }
+  }
+
   /// Logs a [message] at some [severity].
   @protected
   void log(LogSeverity severity, message,
