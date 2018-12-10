@@ -1,4 +1,4 @@
-import 'log_level.dart';
+import 'log_severity.dart';
 
 /// A message emitted by the system, that should be displayed or stored somewhere.
 class LogMessage {
