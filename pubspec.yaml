@@ -3,6 +3,7 @@ environment:
   sdk: ">=2.0.0-dev <3.0.0"
 dependencies:
   logging: ^0.11.0
+  intl: ^0.15.7
   io: ^0.3.2
   quiver_hashcode: ^2.0.0
 dev_dependencies:

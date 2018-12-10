@@ -42,6 +42,14 @@ class LogSeverity implements Comparable<LogSeverity> {
   @override
   int get hashCode => hash2(name, severity);
 
+  bool operator <=(LogSeverity other) {
+    return severity <= other.severity;
+  }
+
+  bool operator >=(LogSeverity other) {
+    return severity >= other.severity;
+  }
+
   @override
   bool operator ==(other) {
     return other is LogSeverity && other.severity == severity;
