@@ -12,7 +12,7 @@ main() async {
 
   foo.runZoned(
     () async {
-      Logger.forThisZone
+      Logger.current
         ..emergency('Nooo! It\'s THREE!!!')
         ..notice('Wait, it\'s actually okay.')
         ..debug('Ok...')

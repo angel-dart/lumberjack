@@ -10,7 +10,7 @@ abstract class Logger extends Stream<Log> {
   /// Returns the [Logger] instance that spawned this [Zone], if any.
   ///
   /// If none is present, a [StateError] will be thrown.
-  static Logger get forThisZone {
+  static Logger get current {
     var logger = Zone.current[#loggerForThisZone];
     if (logger is Logger) {
       return logger;
@@ -45,7 +45,7 @@ abstract class Logger extends Stream<Log> {
 
   /// Runs [callback] in another [Zone], intercepting [print] calls, and logging errors as they occur.
   ///
-  /// Within this callback, [forThisZone] is available.
+  /// Within this callback, [current] is available.
   ///
   /// You may also provide an [onError] callback, which will be called in case of an error.
   ///
