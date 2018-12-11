@@ -7,14 +7,20 @@ class ChildLogger extends HierarchicalLogger {
 
   ChildLogger(this.parent, String name, this.bubbleOnly) : super(name);
 
+  String get fullName {
+    if (parent is ChildLogger) {
+      return '${(parent as ChildLogger).fullName}.$name';
+    } else {
+      return '${parent.name}.$name';
+    }
+  }
+
   @override
   void add(Log log) {
-    super.add(log);
-
     if (!bubbleOnly) {
-      var msg = new Log('${parent.name}.$name', log.time, log.severity,
-          log.message, log.error, log.stackTrace);
-      parent.add(msg);
+      super.add(log);
     }
+
+    parent.addFromChild(this, log);
   }
 }

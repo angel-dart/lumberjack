@@ -29,7 +29,7 @@ class LogSeverity implements Comparable<LogSeverity> {
   static const LogSeverity information = const LogSeverity('informational', 6);
 
   /// A log of priority `7`. In [RFC5424], this means `debug-level messages`.
-  static const LogSeverity debug = const LogSeverity('debug', 0);
+  static const LogSeverity debug = const LogSeverity('debug', 7);
 
   /// The name of this log level, to appear in printed messages.
   final String name;

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:async' as asy;
 import 'package:meta/meta.dart';
 import 'log.dart';
 import 'log_severity.dart';
@@ -21,6 +22,9 @@ abstract class Logger extends Stream<Log> {
 
   /// Creates a new [Logger] with the given [name], at the root of its own hierarchy.
   factory Logger(String name) = RootLogger;
+
+  /// Returns once this [Logger] is closed.
+  Future get done;
 
   /// Base constructor for [Logger].
   ///
@@ -51,26 +55,32 @@ abstract class Logger extends Stream<Log> {
   /// A custom [severityForPrint] may be provided for [print] calls. Defaults to [LogSeverity.information].
   ///
   /// [severityFor] defaults to [LogSeverity.error].
-  Future<T> runZoned<T>(FutureOr<T> Function() callback,
+  T runZoned<T>(T Function() callback,
       {String errorMessage,
       LogSeverity severityForError = LogSeverity.error,
       LogSeverity severityForPrint = LogSeverity.information,
-      FutureOr<T> Function() onError}) {
+      T Function() onError}) {
     var spec = new ZoneSpecification(
       handleUncaughtError: (self, parent, zone, error, stackTrace) {
         log(severityForError, errorMessage,
             error: error, stackTrace: stackTrace);
+        if (onError == null)
+          return parent.handleUncaughtError(zone, error, stackTrace);
       },
       print: (self, parent, zone, line) {
         log(severityForPrint, line);
       },
     );
-    var zone = Zone.current.fork(specification: spec, zoneValues: {
-      #loggerForThisZone: this,
-    });
 
-    var future = zone.run(() => new Future<T>.sync(callback));
-    return onError == null ? future : future.catchError((_) => onError());
+    return asy.runZoned(callback,
+        zoneSpecification: spec,
+        zoneValues: {#loggerForThisZone: this},
+        onError: onError == null
+            ? null
+            : (e, StackTrace st) {
+                log(severityForError, errorMessage, error: e, stackTrace: st);
+                return onError();
+              });
   }
 
   /// Logs a [message] at some [severity].
