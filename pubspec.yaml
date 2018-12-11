@@ -9,6 +9,7 @@ dependencies:
   logging: ^0.11.0
   intl: ^0.15.7
   io: ^0.3.2
+  meta: ^1.0.0
   quiver_hashcode: ^2.0.0
 dev_dependencies:
   pedantic: ^1.0.0
